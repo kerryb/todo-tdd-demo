@@ -2,6 +2,7 @@ defmodule Todo.TodoListTest do
   use Todo.DataCase, async: true
 
   alias Todo.TodoList
+  alias Todo.TodoList.Item
 
   describe "Todo.TodoList.items/0" do
     test "returns all the items, sorted by priority then text" do
@@ -46,6 +47,27 @@ defmodule Todo.TodoListTest do
       insert(:item, text: "Done something", done?: true)
       TodoList.clear_done()
       assert [%{text: "Do something"}] = TodoList.items()
+    end
+  end
+
+  describe "Todo.TodoList.random_top_priority_item/0" do
+    test "returns a dummy struct when there are no items" do
+      assert TodoList.random_top_priority_item() == %Item{text: "There’s nothing to do!"}
+    end
+
+    test "returns the highest priority non-done item when there's only one" do
+      insert(:item, text: "Do something", done?: false, priority: 2)
+      insert(:item, text: "Done something", done?: true, priority: 1)
+      insert(:item, text: "Less important", done?: false, priority: 3)
+      assert %{text: "Do something"} = TodoList.random_top_priority_item()
+    end
+
+    test "returns a random highest priority non-done item when there's more than one" do
+      insert(:item, text: "Do something", done?: false, priority: 2)
+      insert(:item, text: "Do something else", done?: false, priority: 2)
+      insert(:item, text: "Done something", done?: true, priority: 1)
+      insert(:item, text: "Less important", done?: false, priority: 3)
+      assert %{text: "Do something else"} = TodoList.random_top_priority_item(&List.last/1)
     end
   end
 end

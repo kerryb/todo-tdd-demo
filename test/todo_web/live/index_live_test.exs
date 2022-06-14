@@ -82,5 +82,22 @@ defmodule TodoWeb.IndexLiveTest do
 
       assert view |> element("input[value='Clear done'][disabled]") |> has_element?()
     end
+
+    test "displays a random top-priority item on request", %{conn: conn} do
+      insert(:item, text: "Do something", priority: 1, done?: false)
+      insert(:item, text: "Less important", priority: 2, done?: false)
+      insert(:item, text: "Do something else", priority: 1, done?: false)
+
+      {:ok, view, _html} = live(conn, "/")
+      view |> element("input[value='Pick something']") |> render_click()
+
+      assert view |> element(".alert-info", "Do something") |> has_element?()
+    end
+
+    test "disables the 'pick something' button if there are no elements", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/")
+
+      assert view |> element("input[value='Pick something'][disabled]") |> has_element?()
+    end
   end
 end
