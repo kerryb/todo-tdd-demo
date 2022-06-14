@@ -60,5 +60,12 @@ defmodule Todo.TodoListTest do
       insert(:item, text: "P2 item", priority: 2)
       assert %{text: "Not done P1 item"} = TodoList.random_high_priority_item()
     end
+
+    test "returns a random high priority not done item if there is more than one" do
+      insert(:item, text: "P1 item one", priority: 1, done?: false)
+      insert(:item, text: "P1 item two", priority: 1, done?: false)
+      insert(:item, text: "P2 item", priority: 2)
+      assert %{text: "P1 item two"} = TodoList.random_high_priority_item(&List.last/1)
+    end
   end
 end

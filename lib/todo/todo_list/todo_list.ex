@@ -25,14 +25,14 @@ defmodule Todo.TodoList do
     Repo.delete_all(from i in Item, where: i.done?)
   end
 
-  def random_high_priority_item do
+  def random_high_priority_item(picker \\ &Enum.random/1) do
     case Repo.all(from i in Item, where: not i.done?) do
       [] ->
         nil
 
       items ->
         highest_priority = Enum.min_by(items, & &1.priority).priority
-        Enum.find(items, &(&1.priority == highest_priority))
+        items |> Enum.filter(&(&1.priority == highest_priority)) |> picker.()
     end
   end
 end
