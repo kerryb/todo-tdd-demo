@@ -4,6 +4,8 @@ defmodule TodoWeb.IndexLiveTest do
   import Phoenix.LiveViewTest
   import Todo.Factory
 
+  alias Todo.TodoList
+
   @endpoint TodoWeb.Endpoint
 
   describe "TodoWeb.IndexLive" do
@@ -18,6 +20,16 @@ defmodule TodoWeb.IndexLiveTest do
 
       assert view |> element("#item-#{item_2.id} label", "Already done (P2)") |> has_element?()
       assert view |> element("#item-#{item_2.id} input[checked]") |> has_element?()
+    end
+
+    test "allows items to be marked as done", %{conn: conn} do
+      item = insert(:item, text: "Do something", priority: 1, done?: false)
+
+      {:ok, view, _html} = live(conn, "/")
+      view |> element("#item-#{item.id} input") |> render_click()
+
+      assert view |> element("#item-#{item.id} input[checked]") |> has_element?()
+      assert [%{done?: true}] = TodoList.items()
     end
   end
 end

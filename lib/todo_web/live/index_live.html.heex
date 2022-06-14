@@ -2,7 +2,13 @@
 
 <%= for item <- @items do %>
   <div id={"item-#{item.id}"}>
-    <input type="checkbox" id={"mark-done-#{item.id}"} checked={item.done?} />
+    <input
+      type="checkbox"
+      id={"mark-done-#{item.id}"}
+      checked={item.done?}
+      phx-click="toggle-done"
+      phx-value-id={item.id}
+    />
     <label class="label-inline" for={"mark-done-#{item.id}"}>
       <%= item.text %> <span class="todo-priority">(P<%= item.priority %>)</span>
     </label>
