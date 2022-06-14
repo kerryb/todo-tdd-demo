@@ -18,11 +18,22 @@ defmodule Todo.TodoListTest do
     end
   end
 
-  describe "Todo.TodoList.mark_done/1" do
-    test "marks the specified item as done" do
+  describe "Todo.TodoList.toggle_done/1" do
+    test "marks a not-done item as done" do
       item = insert(:item, text: "Do something", done?: false)
-      TodoList.mark_done(item.id)
+      TodoList.toggle_done(item.id)
       assert Repo.reload(item).done?
+    end
+
+    test "marks a done item as not done" do
+      item = insert(:item, text: "Do something", done?: true)
+      TodoList.toggle_done(item.id)
+      refute Repo.reload(item).done?
+    end
+
+    test "returns the updated item" do
+      item = insert(:item, text: "Do something", done?: true)
+      assert {:ok, %{text: "Do something", done?: false}} = TodoList.toggle_done(item.id)
     end
   end
 end

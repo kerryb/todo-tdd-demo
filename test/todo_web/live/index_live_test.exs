@@ -31,5 +31,15 @@ defmodule TodoWeb.IndexLiveTest do
       assert view |> element("#item-#{item.id} input[checked]") |> has_element?()
       assert [%{done?: true}] = TodoList.items()
     end
+
+    test "allows items to be marked as not done", %{conn: conn} do
+      item = insert(:item, text: "Do something", priority: 1, done?: true)
+
+      {:ok, view, _html} = live(conn, "/")
+      view |> element("#item-#{item.id} input") |> render_click()
+
+      assert view |> element("#item-#{item.id} input:not([checked])") |> has_element?()
+      assert [%{done?: false}] = TodoList.items()
+    end
   end
 end

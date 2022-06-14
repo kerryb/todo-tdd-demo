@@ -11,7 +11,7 @@ defmodule TodoWeb.IndexLive do
 
   @impl LiveView
   def handle_event("toggle-done", %{"id" => id}, socket) do
-    TodoList.mark_done(id)
+    TodoList.toggle_done(id)
     {:noreply, assign(socket, items: TodoList.items())}
   end
 end
