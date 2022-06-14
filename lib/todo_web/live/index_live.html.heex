@@ -1,1 +1,8 @@
 <h1>To-do List</h1>
+
+<%= for item <- @items do %>
+  <div id={"item-#{item.id}"}>
+    <input type="checkbox" id={"mark-done-#{item.id}"} checked={item.done?}>
+    <label class="label-inline" for={"mark-done-#{item.id}"}><%= item.text %></label>
+  </div>
+<% end %>
