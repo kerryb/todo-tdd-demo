@@ -17,4 +17,12 @@ defmodule Todo.TodoListTest do
       assert [%{text: "Do something", priority: 2, done?: false}] = TodoList.items()
     end
   end
+
+  describe "Todo.TodoList.mark_done/1" do
+    test "marks the specified item as done" do
+      item = insert(:item, text: "Do something", done?: false)
+      TodoList.mark_done(item.id)
+      assert Repo.reload(item).done?
+    end
+  end
 end
