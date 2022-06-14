@@ -16,7 +16,7 @@
 <% end %>
 
 <input type="button" phx-click="clear-done" value="Clear done" disabled={@items == []}/>
-<input type="button" phx-click="random-item" value="Pick something" />
+<input type="button" phx-click="random-item" value="Pick something" disabled={@items == []}/>
 
 <hr />
 <h2>Add New Item</h2>

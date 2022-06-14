@@ -91,5 +91,11 @@ defmodule TodoWeb.IndexLiveTest do
       view |> element("input[value='Pick something']") |> render_click()
       assert view |> element(".alert-info", "P1 item") |> has_element?()
     end
+
+    test "disables the 'pick something' button if there are no elements", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/")
+
+      assert view |> element("input[value='Pick something'][disabled]") |> has_element?()
+    end
   end
 end
