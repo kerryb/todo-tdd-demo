@@ -13,10 +13,10 @@ defmodule TodoWeb.IndexLiveTest do
 
       {:ok, view, _html} = live(conn, "/")
 
-      assert view |> element("#item-#{item_1.id} label", "Do something") |> has_element?()
+      assert view |> element("#item-#{item_1.id} label", "Do something (P1)") |> has_element?()
       assert view |> element("#item-#{item_1.id} input:not([:checked])") |> has_element?()
 
-      assert view |> element("#item-#{item_2.id} label", "Already done") |> has_element?()
+      assert view |> element("#item-#{item_2.id} label", "Already done (P2)") |> has_element?()
       assert view |> element("#item-#{item_2.id} input[checked]") |> has_element?()
     end
   end

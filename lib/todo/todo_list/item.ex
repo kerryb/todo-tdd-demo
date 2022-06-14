@@ -6,5 +6,5 @@ defmodule Todo.TodoList.Item do
     field :text, :string
     field :priority, :integer
     field :done?, :boolean, source: :done
-  end  
+  end
 end
