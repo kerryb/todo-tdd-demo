@@ -4,10 +4,13 @@ defmodule Todo.TodoListTest do
   alias Todo.TodoList
 
   describe "Todo.TodoList.items/0" do
-    test "returns all the items" do
-      insert(:item, text: "Do something")
-      insert(:item, text: "Do something else")
-      assert [%{text: "Do something"}, %{text: "Do something else"}] = TodoList.items()
+    test "returns all the items, sorted by priority then text" do
+      insert(:item, text: "Do something", priority: 2)
+      insert(:item, text: "And something else", priority: 2)
+      insert(:item, text: "Important thing", priority: 1)
+
+      assert [%{text: "Important thing"}, %{text: "And something else"}, %{text: "Do something"}] =
+               TodoList.items()
     end
   end
 

@@ -6,7 +6,7 @@ defmodule Todo.TodoList do
   alias Todo.TodoList.Item
 
   def items do
-    Repo.all(Item)
+    Repo.all(from Item, order_by: [:priority, :text])
   end
 
   def add_item(text, priority) do
