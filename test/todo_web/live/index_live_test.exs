@@ -34,6 +34,18 @@ defmodule TodoWeb.IndexLiveTest do
       assert view |> element("#item-#{item.id} input:not([:checked])") |> has_element?()
     end
 
+    test "disables the 'add' button until text is provided", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/")
+
+      assert view |> element("button[type=submit][disabled]") |> has_element?()
+
+      view
+      |> element("#add-item")
+      |> render_change(%{"item" => %{"text" => "A new item", "priority" => "2"}})
+
+      assert view |> element("button[type=submit]:not([disabled])") |> has_element?()
+    end
+
     test "allows items to be marked as done", %{conn: conn} do
       item = insert(:item, text: "Do something", priority: 1, done?: false)
 
