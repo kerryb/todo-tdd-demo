@@ -14,3 +14,20 @@
     </label>
   </div>
 <% end %>
+
+<hr />
+<h2>Add New Item</h2>
+
+<%= form_for @new_item, "", [id: "add-item", "phx-submit": "add-item"], fn form -> %>
+  <%= label(form, :text) %>
+  <%= text_input(form, :text) %>
+  <%= label(form, :priority) %>
+  <%= radio_button(form, :priority, 1) %>
+  <label for="new_item_priority_1" class="label-inline">1</label>
+  <%= radio_button(form, :priority, 2) %>
+  <label for="new_item_priority_2" class="label-inline">2</label>
+  <%= radio_button(form, :priority, 3) %>
+  <label for="new_item_priority_3" class="label-inline">3</label>
+  <br />
+  <%= submit("Add") %>
+<% end %>
