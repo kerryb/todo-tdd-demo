@@ -4,9 +4,9 @@ defmodule Todo.Repo.Migrations.CreateItems do
   def change do
     create table(:items) do
       timestamps()
-      add :text, :text
-      add :priority, :integer
-      add :done, :boolean
+      add :text, :text, null: false
+      add :priority, :integer, null: false
+      add :done, :boolean, null: false, default: false
     end
   end
 end

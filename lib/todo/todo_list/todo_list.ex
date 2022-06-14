@@ -5,4 +5,8 @@ defmodule Todo.TodoList do
   def items do
     Repo.all(Item)
   end
+
+  def add_item(text, priority) do
+    Repo.insert(%Item{text: text, priority: priority})
+  end
 end
