@@ -48,4 +48,17 @@ defmodule Todo.TodoListTest do
       assert [%{text: "Do something"}] = TodoList.items()
     end
   end
+
+  describe "Todo.TodoList.random_high_priority_item/0" do
+    test "returns nil if there are no items" do
+      assert is_nil(TodoList.random_high_priority_item())
+    end
+
+    test "returns the highest priority not done item if there is only one" do
+      insert(:item, text: "Done P1 item", priority: 1, done?: true)
+      insert(:item, text: "Not done P1 item", priority: 1, done?: false)
+      insert(:item, text: "P2 item", priority: 2)
+      assert %{text: "Not done P1 item"} = TodoList.random_high_priority_item()
+    end
+  end
 end

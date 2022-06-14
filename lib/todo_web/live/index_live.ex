@@ -35,4 +35,9 @@ defmodule TodoWeb.IndexLive do
     {:ok, _item} = TodoList.add_item(params["text"], String.to_integer(params["priority"]))
     {:noreply, assign(socket, items: TodoList.items())}
   end
+
+  def handle_event("random-item", _params, socket) do
+    item = TodoList.random_high_priority_item()
+    {:noreply, put_flash(socket, :info, item.text)}
+  end
 end
