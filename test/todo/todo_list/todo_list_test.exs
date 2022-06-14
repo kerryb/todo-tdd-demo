@@ -36,4 +36,13 @@ defmodule Todo.TodoListTest do
       assert {:ok, %{text: "Do something", done?: false}} = TodoList.toggle_done(item.id)
     end
   end
+
+  describe "Todo.TodoList.clear_done/0" do
+    test "deletes all done items" do
+      insert(:item, text: "Do something", done?: false)
+      insert(:item, text: "Done something", done?: true)
+      TodoList.clear_done()
+      assert [%{text: "Do something"}] = TodoList.items()
+    end
+  end
 end

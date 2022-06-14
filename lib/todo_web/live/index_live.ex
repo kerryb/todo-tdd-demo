@@ -21,6 +21,11 @@ defmodule TodoWeb.IndexLive do
     {:noreply, assign(socket, items: TodoList.items())}
   end
 
+  def handle_event("clear-done", _params, socket) do
+    TodoList.clear_done()
+    {:noreply, assign(socket, items: TodoList.items())}
+  end
+
   def handle_event("validate-add-item", %{"item" => params}, socket) do
     changeset = Item.changeset(%Item{}, params)
     {:noreply, assign(socket, new_item: changeset, new_item_valid?: changeset.valid?)}

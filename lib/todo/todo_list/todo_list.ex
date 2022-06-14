@@ -1,4 +1,6 @@
 defmodule Todo.TodoList do
+  import Ecto.Query
+
   alias Ecto.Changeset
   alias Todo.Repo
   alias Todo.TodoList.Item
@@ -17,5 +19,9 @@ defmodule Todo.TodoList do
 
   defp toggle_done_field(item) do
     Changeset.change(item, done?: not item.done?)
+  end
+
+  def clear_done do
+    Repo.delete_all(from i in Item, where: i.done?)
   end
 end
